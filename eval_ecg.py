@@ -4,12 +4,12 @@ import random
 import timesfm
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 
-context_len = 512
-pred_len = 10000
+context_len = 128
+pred_len = 128
 ecg_dataset = ECG_MIT(context_len=context_len, pred_len=pred_len, data_path="/home/user/MIT-BIH.npz")
 
 
-max_len = 128
+max_len = 10000
 batch_size = 32
 
 def single_loader(dataset: ECG_MIT, indices: list[int]):
@@ -73,6 +73,9 @@ for i, (x, y) in enumerate(batch_loader(ecg_dataset, indices, batch_size)):
     mses.append(mse)
     rmses.append(rmse)
     maes.append(mae)
+
+    if i % 20 == 0:
+        print(f"iteraition: {i} | MSE: {mse} RMSE: {rmse} MAE: {mae}")
 
 # point_forecast, experimental_quantile_forecast = tfm.forecast(
 #     forecast_input,
