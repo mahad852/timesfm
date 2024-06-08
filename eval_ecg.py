@@ -5,7 +5,7 @@ import timesfm
 
 context_len = 128
 pred_len = 64
-ecg_dataset = ECG_MIT(context_len=context_len, pred_len=pred_len, data_path="/Users/ma649596/Downloads/MIT-BIH.npz")
+ecg_dataset = ECG_MIT(context_len=context_len, pred_len=pred_len, data_path="/home/user/MIT-BIH.npz")
 
 
 max_len = 10
