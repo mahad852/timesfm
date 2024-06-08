@@ -4,7 +4,7 @@ import random
 import timesfm
 
 context_len = 128
-pred_len = 64
+pred_len = 128
 ecg_dataset = ECG_MIT(context_len=context_len, pred_len=pred_len, data_path="/home/user/MIT-BIH.npz")
 
 
@@ -50,7 +50,6 @@ tfm.load_from_checkpoint(repo_id="google/timesfm-1.0-200m")
 forecast_input = [
     np.sin(np.linspace(0, 20, 100)),
     np.sin(np.linspace(0, 20, 200)),
-    np.sin(np.linspace(0, 20, 400)),
 ]
 frequency_input = [0, 1, 2]
 
@@ -60,3 +59,4 @@ point_forecast, experimental_quantile_forecast = tfm.forecast(
 )
 
 print(point_forecast, experimental_quantile_forecast)
+print(point_forecast[0].shape)
