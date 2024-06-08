@@ -2,18 +2,20 @@ import numpy as np
 from datasets.ecg_mit import ECG_MIT
 import random
 import timesfm
+from sklearn.metrics import mean_squared_error, mean_absolute_error
 
 context_len = 128
 pred_len = 128
 ecg_dataset = ECG_MIT(context_len=context_len, pred_len=pred_len, data_path="/home/user/MIT-BIH.npz")
 
 
-max_len = 10
-batch_size = 3
+max_len = 128
+batch_size = 32
 
 def single_loader(dataset: ECG_MIT, indices: list[int]):
     for index in indices:
-        yield dataset[index]
+        x, y = dataset[index]
+        yield [x], [y]
 
 def batch_loader(dataset: ECG_MIT, indices: list[int], batch_size: int):
     for i in range(0, len(indices), batch_size):
@@ -53,10 +55,31 @@ forecast_input = [
 ]
 frequency_input = [0, 1, 2]
 
-point_forecast, experimental_quantile_forecast = tfm.forecast(
-    forecast_input,
-    freq=frequency_input,
-)
 
-print(point_forecast, experimental_quantile_forecast)
-print(point_forecast[0].shape)
+mses = []
+maes = []
+rmses = []
+
+for i, (x, y) in enumerate(batch_loader(ecg_dataset, indices, batch_size)):
+    point_forecast, experimental_quantile_forecast = tfm.forecast(
+        x,
+        # freq=frequency_input,
+    )
+
+    mse = mean_squared_error(np.array(y), np.array(point_forecast))
+    rmse = np.sqrt(mse)
+    mae = mean_absolute_error(np.array(y), np.array(point_forecast))
+
+    mses.append(mse)
+    rmses.append(rmse)
+    maes.append(mae)
+
+# point_forecast, experimental_quantile_forecast = tfm.forecast(
+#     forecast_input,
+#     freq=frequency_input,
+# )
+
+# print(point_forecast, experimental_quantile_forecast)
+# print(point_forecast[0].shape)
+
+print(f"MSE: {np.average(mses)} RMSE: {np.average(rmses)} MAE: {np.average(maes)}")
