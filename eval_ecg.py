@@ -77,7 +77,7 @@ for i, (x, y) in enumerate(batch_loader(ecg_dataset, indices, batch_size)):
 
     for p_len in range(1, pred_len + 1):
         mse_by_pred_len[p_len] += mean_squared_error(y[:, :p_len], point_forecast[:, :p_len])
-        mse_by_pred_len[p_len] += np.sqrt(mean_squared_error(y[:, :p_len], point_forecast[:, :p_len]))
+        rmse_by_pred_len[p_len] += np.sqrt(mean_squared_error(y[:, :p_len], point_forecast[:, :p_len]))
         mae_by_pred_len[p_len] += mean_absolute_error(y[:, :p_len], point_forecast[:, :p_len])
 
     if i % 20 == 0:
@@ -94,7 +94,7 @@ if not os.path.exists("logs"):
     os.mkdir("logs")
 
 with open(os.path.join("logs", f"TimesFM_{context_len}_{pred_len}.csv"), "w") as f:
-    f.write("context_len,horizon_len,MSE,RMSE,MAE")
+    f.write("context_len,horizon_len,MSE,RMSE,MAE\n")
     for p_len in range(1, pred_len + 1):
         f.write(f"{context_len},{p_len},{mse_by_pred_len[p_len]},{rmse_by_pred_len[p_len]},{mae_by_pred_len[p_len]}")
         if p_len != pred_len:
