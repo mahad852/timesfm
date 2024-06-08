@@ -4,8 +4,8 @@ import random
 import timesfm
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 
-context_len = 128
-pred_len = 128
+context_len = 512
+pred_len = 10000
 ecg_dataset = ECG_MIT(context_len=context_len, pred_len=pred_len, data_path="/home/user/MIT-BIH.npz")
 
 
