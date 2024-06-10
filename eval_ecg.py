@@ -46,7 +46,6 @@ tfm.load_from_checkpoint(repo_id="google/timesfm-1.0-200m")
 
 mses = []
 maes = []
-rmses = []
 
 mse_by_pred_len = {}
 rmse_by_pred_len = {}
@@ -70,24 +69,22 @@ for i, (x, y) in enumerate(batch_loader(ecg_dataset, indices, batch_size)):
     mae = mean_absolute_error(y, point_forecast)
 
     mses.append(mse)
-    rmses.append(rmse)
     maes.append(mae)
 
     total += 1
 
     for p_len in range(1, pred_len + 1):
         mse_by_pred_len[p_len] += mean_squared_error(y[:, :p_len], point_forecast[:, :p_len])
-        rmse_by_pred_len[p_len] += np.sqrt(mean_squared_error(y[:, :p_len], point_forecast[:, :p_len]))
         mae_by_pred_len[p_len] += mean_absolute_error(y[:, :p_len], point_forecast[:, :p_len])
 
     if i % 20 == 0:
         print(f"iteraition: {i} | MSE: {mse} RMSE: {rmse} MAE: {mae}")
 
-print(f"MSE: {np.average(mses)} RMSE: {np.average(rmses)} MAE: {np.average(maes)}")
+print(f"MSE: {np.average(mses)} RMSE: {np.sqrt(np.average(mses))} MAE: {np.average(maes)}")
 
 for p_len in range(1, pred_len + 1):
     mse_by_pred_len[p_len] /= total
-    rmse_by_pred_len[p_len] /= total
+    rmse_by_pred_len[p_len] = np.sqrt(mse_by_pred_len[p_len])
     mae_by_pred_len[p_len] /= total
 
 if not os.path.exists("logs"):
