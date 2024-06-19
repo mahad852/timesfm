@@ -25,9 +25,7 @@ tfm = timesfm.TimesFm(
 tfm.load_from_checkpoint(repo_id="google/timesfm-1.0-200m")
 
 dataset = np.load(dataset_path)
-device = torch.device("cuda")
-
-context = torch.tensor(np.array([get_context(dataset, sample_true_key)]), device=device)
+context = np.array([get_context(dataset, sample_true_key)])
 
 point_forecast, experimental_quantile_forecast = tfm.forecast(context)
 point_forecast = np.array(point_forecast)
