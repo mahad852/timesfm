@@ -1,5 +1,4 @@
 import numpy as np
-import torch
 import timesfm
 import os
 
