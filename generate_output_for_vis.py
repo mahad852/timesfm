@@ -2,7 +2,7 @@ import numpy as np
 import timesfm
 import os
 
-dataset_path = "/Users/mali2/datasets/ecg/MIT-BIH_lagllama_384_64_forecast.npz"
+dataset_path = "/home/mali2/datasets/ecg/MIT-BIH_lagllama_384_64_forecast.npz"
 
 sample_key = "a103-48_384_64_"
 sample_true_key = f"{sample_key}true"
