@@ -28,7 +28,7 @@ dataset = np.load(dataset_path)
 context = np.array([get_context(dataset, sample_true_key)])
 
 point_forecast, experimental_quantile_forecast = tfm.forecast(context)
-point_forecast = np.array(point_forecast)
+point_forecast = np.array(point_forecast)[0]
 
 if not os.path.exists("forecasts"):
     os.mkdir("forecasts")
