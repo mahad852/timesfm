@@ -4,6 +4,7 @@ import random
 import timesfm
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 import os
+from typing import List
 
 context_len = 512
 pred_len = 64
@@ -13,12 +14,12 @@ ecg_dataset = ECG_MIT(context_len=context_len, pred_len=pred_len, data_path="/ho
 max_len = 260000
 batch_size = 64
 
-def single_loader(dataset: ECG_MIT, indices: list[int]):
+def single_loader(dataset: ECG_MIT, indices: List[int]):
     for index in indices:
         x, y = dataset[index]
         yield [x], [y]
 
-def batch_loader(dataset: ECG_MIT, indices: list[int], batch_size: int):
+def batch_loader(dataset: ECG_MIT, indices: List[int], batch_size: int):
     for i in range(0, len(indices), batch_size):
         xs = []
         ys = []
