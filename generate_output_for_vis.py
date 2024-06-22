@@ -33,4 +33,4 @@ point_forecast = np.array(point_forecast)[0]
 if not os.path.exists("forecasts"):
     os.mkdir("forecasts")
 
-np.save("forecasts/a103-48_384_64_lstm", point_forecast)
+np.save("forecasts/a103-48_384_64_timesfm", point_forecast)
