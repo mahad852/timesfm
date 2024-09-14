@@ -7,7 +7,7 @@ context_len = 512
 pred_len = 64
 
 # ecg_dataset = ECG_MIT(context_len=context_len, pred_len=pred_len, data_path="/home/user/MIT-BIH.npz")
-data_path = "/home/user/MIT-BIH-splits.npz"
+data_path = "/home/mali2/datasets/ecg/MIT-BIH-splits.npz"
 
 def single_loader(dataset):
     for i in range(1, len(dataset.files), 2):
